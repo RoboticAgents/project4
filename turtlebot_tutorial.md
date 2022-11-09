@@ -1,4 +1,4 @@
-# Tutorial based on the work by teams <Trang Hoang, Evelyn Griffith> and 
+# Tutorial based on the work by teams <Trang Hoang, Evelyn Griffith> and <Makell Logan, Griffin Wirth, Jordan Byrne>
 
 1. Open the box for the robot and take out the dock. Place the dock on the floor in an open space and plug it into the nearest outlet. Take the turtlebot out of it's box and place it on the dock so that the two metal pieces on the bottom of the robot are connected to the two metal pieces on the charger (see images below). The robot should turn on with a flashing white light around the center power button. Once you hear two chimes (the second one will sound a little while after the first) you're good to go!
 

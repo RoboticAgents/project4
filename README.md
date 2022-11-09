@@ -15,7 +15,7 @@
 
 - [Assessment](#assessment)
 
-- [Receiving Assistance](#receiving-assistance)
+- [Receiving Assistance](#assistance)
 
 ## Timeline
 
