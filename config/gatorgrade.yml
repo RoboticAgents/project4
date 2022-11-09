@@ -1,0 +1,33 @@
+# check the technical writing for various characteristics
+- writing/report.md:
+    - description: Ensure that report.md file exists in the writing/ directory
+      check: ConfirmFileExists
+    - description: Write a minimum number of meaningful words (200) in the report
+      check: CountFileWords
+      options:
+        count: 200
+        exact: false
+    - description: Confirm that the markdown file has the correct number of headers
+      check: CountMarkdownTags
+      options:
+        tag: heading
+        count: 6
+        exact: true
+    - description: Complete all TODOs, remove the TODO markers in the report.md
+      check: MatchFileFragment
+      options:
+        fragment: TODO
+        count: 0
+        exact: true
+    - description: Delete the 'Add Team Member Names' prompt in the report file
+      check: MatchFileFragment
+      options:
+        fragment: "Add Team Member Names"
+        count: 0
+        exact: true
+
+# count number of commits in the GitHub repository
+- description: Have at least a specific minimum number of commits (6) in repository
+  check: CountCommits
+  options:
+    count: 6
