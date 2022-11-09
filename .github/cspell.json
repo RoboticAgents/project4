@@ -21,7 +21,8 @@
         "Buchi",
         "JJ",
         "sheetshuttle",
-        "pluginbase"
+        "pluginbase",
+        "teleop"
     ],
     "ignorePaths": [
         ".github/**"
