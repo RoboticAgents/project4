@@ -1,9 +1,7 @@
-# Project 04: Robot Manipulation or Mapping
+# Project 4: Robot Manipulation or Mapping
 
 ## Table of Contents
 
-- [Timeline](#timeline)
-- [Class Community Guidelines](#class-community-guidelines)
 - [Summary](#summary)
 - [Team Assignments](#team-assignments)
 - [Instructions](#Instructions)
@@ -16,21 +14,6 @@
 - [Assessment](#assessment)
 
 - [Receiving Assistance](#assistance)
-
-## Timeline
-
-Activity                                                                                               | Deadline
------------------------------------------------------------------------------------------------------- | -------------------------------------------
-Complete Step 1 and Step 1 part of the report (At least 1 commit from each team member):               | by the end of class on November 9th, 2022
-Project Work Time - make significant progress toward Step 2 (At least 1 commit from each team member): | by the end of the lab on November 9th, 2022
-Project Work Time - finish the project and the report (At least 1 commit from each team member):       | November 10-17, outside of class and lab
-Demo and Final Submission:                                                                             | November 17th, 2022 at 9:30am
-
-## Class Community Guidelines
-
-Throughout the completion of this project you must adhere to the [community guidelines](https://github.com/CMPSC-311-Allegheny-College-Fall-2022/course-information/blob/main/community_guidelines.md) that we developed as a class. To report any violations of the code of conduct, please submit an [anonymous form](https://forms.gle/tePfnLY12hyN1Xbd6). Students who think that the class should revise some aspect of the guidelines must use the GitHub issue tracker for that repository to suggest, discuss, and implement any required changes.
-
-By working on and completing this assignment you agree to use the hardware given to you in a responsible manner. Each team is responsible for the safety and security of the robot while it is in your possession. You are allowed to take the robots used in this project outside of ALIC but you have to return all parts at the completion of this project, or if requested, at the end of the semester.
 
 ## Summary
 
