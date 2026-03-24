@@ -74,3 +74,9 @@
 - maps/real_map.yaml:
     - description: Ensure physical map metadata exists
       check: ConfirmFileExists
+
+# Commits
+- description: Repository has at least 5 commits
+  check: CountCommits
+  options:
+    count: 5
