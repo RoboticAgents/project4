@@ -113,19 +113,51 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
 
    > **Tip:** The house environment has more features to map and works more reliably in Docker.
 
+   > **Expected warnings:** When Gazebo launches you will see errors about `Could not resolve file [Wood_Floor_Dark.jpg]` and `[Maple.jpg]`, QML binding loop warnings, and an anti-aliasing message. These are all cosmetic — missing textures render as a solid color and the other warnings are standard for the Docker environment. They do not affect the simulation, lidar, or SLAM.
+
 2. **Launch Cartographer SLAM** in a second terminal:
 
    ```bash
    ros2 launch turtlebot3_cartographer cartographer.launch.py
    ```
 
+   [Cartographer](https://google-cartographer-ros.readthedocs.io/) is Google's open-source SLAM library — it takes the lidar scans and odometry data and stitches them together into a consistent 2D occupancy grid map in real time, handling loop closures and scan matching automatically.
+
    An RViz window will open showing the robot, laser scans, and the map being built in real time.
+
+   **Understanding the RViz display:**
+
+   - **Left panel (Displays):** Lists everything RViz is visualizing. Each item has a status icon:
+     - ✅ **Green checkmark** = working normally (you should see this on **Global Status**)
+     - ⚠️ **Yellow !** = minor warning but still functional (you will likely see this on **TF** — this is normal and means some coordinate frames have slight timing delays; it does **not** affect SLAM or navigation)
+     - ❌ **Red ✗** = error, that display is not receiving data
+   - **Map (grey/white/black grid):** The occupancy grid being built by SLAM. **Black** cells = occupied (walls/obstacles), **white** cells = free space, **grey** cells = unknown/unexplored
+   - **Red dots/lines (LaserScan):** Real-time lidar readings — these are the distance measurements the robot's laser sensor is currently seeing
+   - **Robot model:** The small robot icon showing the robot's estimated position and orientation
+   - **Green line (path):** When using Nav2, this shows the planned path to the goal
+   - **Colored overlays (costmaps):** In Nav2 navigation, these show areas the robot should avoid (inflated obstacles) vs. safe areas to drive through
+   - **Bottom bar:** Shows the coordinate position of your mouse cursor on the map — useful for finding waypoint coordinates in Part 3
 
 3. **Launch teleop** in a third terminal:
 
    ```bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true
    ```
+
+   The keyboard controls use this layout:
+
+   ```
+   u : forward-left     i : forward       o : forward-right
+   j : rotate left      k : STOP          l : rotate right
+   m : backward-left    , : backward      . : backward-right
+   ```
+
+   Speed adjustments:
+   - **q / z** — increase / decrease all speeds by 10%
+   - **w / x** — increase / decrease linear speed only
+   - **e / c** — increase / decrease angular speed only
+
+   > **Important:** Click on the teleop terminal window to make sure it has focus before pressing keys.
 
 4. **Inspect the running nodes and topics** in a fourth terminal. This is the node-topic graph from the ROS2 intro slides, running live:
 
@@ -135,6 +167,8 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
    ros2 topic info /scan
    ros2 topic info /cmd_vel
    ```
+
+   > **Note:** You may see a message like `selected interface "lo" is not multicast-capable: disabling multicast`. This is normal inside Docker — all nodes are in the same container, so communication works fine without multicast.
 
    Notice which nodes are publishing and subscribing to each topic — for example, the Gazebo simulation publishes `/scan` (lidar data), and Cartographer subscribes to it to build the map. The teleop node publishes to `/cmd_vel`, which the simulation subscribes to for motor control.
 
