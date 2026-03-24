@@ -4,20 +4,19 @@
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Learning Outcomes](#learning-outcomes)
-- [Individual Assignment](#individual-assignment)
-- [Prerequisites](#prerequisites)
-- [Project Structure](#project-structure)
-  - [Part 1: SLAM Mapping in Simulation](#part-1-slam-mapping-in-simulation)
-  - [Part 2: Autonomous Navigation in Simulation](#part-2-autonomous-navigation-in-simulation)
-  - [Part 3: ROS2 Waypoint Navigation Node](#part-3-ros2-waypoint-navigation-node)
-  - [Part 4: Physical TurtleBot 4 Mapping](#part-4-physical-turtlebot-4-mapping)
-- [Assessment](#assessment)
-- [Resources](#resources)
-- [Submission Instructions](#submission-instructions)
-- [Academic Integrity](#academic-integrity)
-- [Getting Help](#getting-help)
+| | Section | Description |
+|---|---------|-------------|
+| | [Overview](#overview) | Project summary and structure |
+| | [Timeline](#timeline) | Deadlines and checkpoints |
+| | [Prerequisites](#prerequisites) | Docker setup, local install option |
+| **Part 1** | [SLAM Mapping in Simulation](#part-1-slam-mapping-in-simulation) | Build a map using Cartographer SLAM |
+| **Part 2** | [Autonomous Navigation in Simulation](#part-2-autonomous-navigation-in-simulation) | Navigate with Nav2 and costmaps |
+| **Part 3** | [ROS2 Waypoint Navigation Node](#part-3-ros2-waypoint-navigation-node) | Write a Python node to send goals |
+| **Part 4** | [Physical TurtleBot 4 Mapping](#part-4-physical-turtlebot-4-mapping) | Map a real environment with a physical robot |
+| | [Assessment](#assessment) | Grading rubric (10 points) |
+| | [Resources](#resources) | Documentation and reference links |
+| | [Submission Instructions](#submission-instructions) | Deadlines and repository checklist |
+| | [Academic Integrity](#academic-integrity) | Allowed and prohibited actions |
 
 ---
 
@@ -88,6 +87,60 @@ docker compose up
 ```
 
 Connect via browser at **http://localhost:6080**. Right-click the desktop → **Terminal** to open terminals.
+
+### Alternative: Local Installation (No Docker)
+
+If you prefer to run ROS2 natively on Ubuntu 24.04 instead of using Docker, install the following:
+
+1. **ROS2 Jazzy:**
+
+   ```bash
+   # Follow the official installation guide:
+   # https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html
+   sudo apt install ros-jazzy-desktop
+   source /opt/ros/jazzy/setup.bash
+   ```
+
+2. **TurtleBot3 simulation packages:**
+
+   ```bash
+   sudo apt install ros-jazzy-turtlebot3-gazebo \
+                    ros-jazzy-turtlebot3-cartographer \
+                    ros-jazzy-turtlebot3-navigation2 \
+                    ros-jazzy-turtlebot3-teleop
+   ```
+
+3. **Navigation and SLAM packages:**
+
+   ```bash
+   sudo apt install ros-jazzy-navigation2 \
+                    ros-jazzy-nav2-bringup \
+                    ros-jazzy-slam-toolbox \
+                    ros-jazzy-cartographer-ros
+   ```
+
+4. **Teleop and DDS:**
+
+   ```bash
+   sudo apt install ros-jazzy-teleop-twist-keyboard \
+                    ros-jazzy-rmw-cyclonedds-cpp
+   ```
+
+5. **Set environment variables** (add to your `~/.bashrc`):
+
+   ```bash
+   source /opt/ros/jazzy/setup.bash
+   export TURTLEBOT3_MODEL=burger
+   export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+   ```
+
+**References:**
+- [ROS2 Jazzy Installation (Ubuntu)](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
+- [TurtleBot3 Quick Start (Jazzy)](https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/)
+- [TurtleBot3 Simulation Setup](https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/)
+- [Nav2 Installation](https://docs.nav2.org/getting_started/index.html)
+
+> **Note:** Local installation requires Ubuntu 24.04. macOS and Windows users should use the Docker environment.
 
 ---
 
@@ -262,7 +315,11 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
    ros2 pkg create --build-type ament_python waypoint_nav
    ```
 
-3. **Write the waypoint navigation node.** Create the file `~/ros2_ws/src/waypoint_nav/waypoint_nav/navigate_waypoints.py` with the following structure:
+3. **Write the waypoint navigation node.** Create the file `~/ros2_ws/src/waypoint_nav/waypoint_nav/navigate_waypoints.py`:
+
+   > **Editing files in Docker:** Use `nano` to create and edit files inside the container (e.g., `nano ~/ros2_ws/src/waypoint_nav/waypoint_nav/navigate_waypoints.py`). Alternatively, you can write the file on your host machine in VS Code, save it to your project's `src/` folder, and then copy it into the ROS2 workspace: `cp ~/project_src/navigate_waypoints.py ~/ros2_ws/src/waypoint_nav/waypoint_nav/`
+
+   Use the following structure:
 
    ```python
    #!/usr/bin/env python3
@@ -566,12 +623,3 @@ You may NOT:
 - Copy another student's code, maps, screenshots, or written responses
 - Use AI tools to generate your written reflections (your reflections should describe YOUR experience)
 - Submit maps or screenshots that are not from your own work
-
----
-
-## Getting Help
-
-- **Office hours:** See [instructor's schedule](https://janyljumadinova.com/schedule)
-- **Technical Leaders:** See [TL office hours](https://www.cs.allegheny.edu/teaching/technicalleaders/)
-- **Discord:** Post questions in the course channel
-- **In class:** March 30 and 31 are P4 work days — bring your laptop and questions
