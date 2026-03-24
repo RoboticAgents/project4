@@ -95,17 +95,23 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
 
 ### Part 1: SLAM Mapping in Simulation
 
-**Goal:** Build a complete occupancy grid map of the `turtlebot3_world` environment using SLAM.
+**Goal:** Build a complete occupancy grid map of a simulated environment using SLAM.
 
 **Concepts:** SLAM (Simultaneous Localization and Mapping) is the process of building a map of the environment while simultaneously tracking the robot's position within it. The TurtleBot3's lidar sensor produces laser scans that measure distances to obstacles. The Cartographer SLAM algorithm uses these scans, combined with odometry, to incrementally build an **occupancy grid map** — a grid where each cell stores the probability that it is occupied, free, or unknown.
 
 **Steps:**
 
-1. **Launch Gazebo** with the TurtleBot3 world:
+1. **Launch Gazebo** with a TurtleBot3 world. Choose one of the following:
 
    ```bash
-   ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+   # House environment (recommended) — rooms, corridors, and furniture
+   ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
+
+   # Alternatively: open world with cylindrical obstacles
+   # ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
    ```
+
+   > **Tip:** The house environment has more features to map and works more reliably in Docker.
 
 2. **Launch Cartographer SLAM** in a second terminal:
 
@@ -121,13 +127,24 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
    ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true
    ```
 
-4. **Drive the robot** slowly and methodically through the entire environment. Tips:
+4. **Inspect the running nodes and topics** in a fourth terminal. This is the node-topic graph from the ROS2 intro slides, running live:
+
+   ```bash
+   ros2 node list
+   ros2 topic list
+   ros2 topic info /scan
+   ros2 topic info /cmd_vel
+   ```
+
+   Notice which nodes are publishing and subscribing to each topic — for example, the Gazebo simulation publishes `/scan` (lidar data), and Cartographer subscribes to it to build the map. The teleop node publishes to `/cmd_vel`, which the simulation subscribes to for motor control.
+
+5. **Drive the robot** slowly and methodically through the entire environment. Tips:
    - Drive slowly — fast motion causes scan distortion
    - Cover all corridors and rooms
    - Revisit areas to improve map quality (loop closure)
    - Watch the RViz map update as you drive
 
-5. **Save the map** once the environment is fully covered:
+6. **Save the map** once the environment is fully covered:
 
    ```bash
    ros2 run nav2_map_server map_saver_cli -f ~/map
@@ -135,12 +152,14 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
 
    This creates two files: `map.pgm` (the image) and `map.yaml` (metadata).
 
-6. **Copy the map files** to your project repository. From your **host machine** (not inside Docker):
+7. **Copy the map files** to your project repository. Inside the Docker terminal:
 
    ```bash
-   docker cp ros2-turtlebot3:/home/ubuntu/map.pgm maps/sim_map.pgm
-   docker cp ros2-turtlebot3:/home/ubuntu/map.yaml maps/sim_map.yaml
+   cp ~/map.pgm ~/project_maps/sim_map.pgm
+   cp ~/map.yaml ~/project_maps/sim_map.yaml
    ```
+
+   The `project_maps` folder is mounted to the `maps/` directory in your project repository, so the files will appear there automatically.
 
 **Deliverable:** Complete the Part 1 section of `writing/reflection.md` with screenshots and answers.
 
@@ -154,10 +173,10 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
 
 **Steps:**
 
-1. **Launch Gazebo** (same world you mapped):
+1. **Launch Gazebo** (same world you mapped in Part 1):
 
    ```bash
-   ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+   ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
    ```
 
 2. **Launch Nav2** with your saved map:
@@ -331,12 +350,13 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
    - Update `self.waypoints` with at least **four** waypoints that form a meaningful route (e.g., patrol a perimeter, visit multiple rooms)
    - The route should require navigating around at least one obstacle
 
-7. **Copy your final node** to the project repository:
+7. **Copy your final node** to the project repository. Inside the Docker terminal:
 
    ```bash
-   # From your host machine:
-   docker cp ros2-turtlebot3:/home/ubuntu/ros2_ws/src/waypoint_nav/waypoint_nav/navigate_waypoints.py src/navigate_waypoints.py
+   cp ~/ros2_ws/src/waypoint_nav/waypoint_nav/navigate_waypoints.py ~/project_src/navigate_waypoints.py
    ```
+
+   The `project_src` folder is mounted to the `src/` directory in your project repository.
 
 **Deliverable:** Push `src/navigate_waypoints.py` and complete the Part 3 section of `writing/reflection.md`.
 
@@ -368,29 +388,28 @@ Since we have 4 robots for the class, you will **sign up for a time slot** on Di
 
 Available times will be posted on Discord. First-come, first-served — sign up early.
 
-#### Setup and Networking
+#### Setup
 
-The instructor will have the TurtleBots pre-configured and connected to a lab Wi-Fi network. You will connect your laptop to the same network.
+Each TurtleBot 4 has a dedicated laptop with ROS2 Jazzy pre-installed. You will use this laptop (not your personal machine) to run SLAM and teleop.
 
-1. **Connect your laptop** to the lab Wi-Fi network (name and password provided in lab).
+1. **Log in** to the robot's laptop. The instructor will provide credentials.
 
-2. **Verify connectivity** — open a terminal on your laptop and check that you can see the robot's topics:
+2. **Verify connectivity** — open a terminal and check that you can see the robot's topics:
 
    ```bash
-   source /opt/ros/jazzy/setup.bash
    export ROS_DOMAIN_ID=<your_robot_id>
    ros2 topic list
    ```
 
    You should see topics including `/scan`, `/cmd_vel`, `/odom`, etc.
 
-3. **Launch SLAM** on your laptop:
+3. **Launch SLAM:**
 
    ```bash
    ros2 launch turtlebot4_navigation slam.launch.py
    ```
 
-4. **Launch teleop** in another terminal on your laptop:
+4. **Launch teleop** in another terminal:
 
    ```bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
@@ -411,12 +430,14 @@ The instructor will have the TurtleBots pre-configured and connected to a lab Wi
    ros2 run nav2_map_server map_saver_cli -f ~/real_map
    ```
 
-7. **Copy the map** to your project repository:
+7. **Copy the map files** to your project repository. Clone your repo on the robot's laptop (or use a USB drive), then:
 
    ```bash
-   cp ~/real_map.pgm maps/real_map.pgm
-   cp ~/real_map.yaml maps/real_map.yaml
+   cp ~/real_map.pgm <your-repo>/maps/real_map.pgm
+   cp ~/real_map.yaml <your-repo>/maps/real_map.yaml
    ```
+
+   Commit and push from the robot's laptop, or transfer the files to your own machine.
 
 **Deliverable:** Push map files to `maps/` and complete the Part 4 section of `writing/reflection.md`.
 

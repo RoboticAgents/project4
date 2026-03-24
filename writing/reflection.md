@@ -14,7 +14,7 @@
 
 #### Gazebo World
 
-> Insert a screenshot of the `turtlebot3_world` loaded in Gazebo.
+> Insert a screenshot of the Gazebo world loaded (house or world).
 
 ![Gazebo World](screenshots/part1_gazebo.png)
 
@@ -38,7 +38,7 @@
 
 ### Questions
 
-**Q1:** List the ROS2 topics that Cartographer subscribes to (use `ros2 node info`). What data does each topic provide?
+**Q1:** Run `ros2 node list` and `ros2 topic list` while Gazebo, Cartographer, and teleop are running. List the nodes you see and explain how they connect through topics (which node publishes to which topic, and which node subscribes). Refer to the node-topic graph from the ROS2 intro slides.
 
 **Answer:**
 

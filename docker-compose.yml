@@ -5,6 +5,9 @@ services:
     ports:
       - "6080:80"
     shm_size: "1gb"
+    volumes:
+      - ./maps:/home/ubuntu/project_maps
+      - ./src:/home/ubuntu/project_src
     environment:
       - RESOLUTION=1280x720
       - TURTLEBOT3_MODEL=burger
