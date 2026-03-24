@@ -12,7 +12,7 @@
   - [Part 1: SLAM Mapping in Simulation](#part-1-slam-mapping-in-simulation)
   - [Part 2: Autonomous Navigation in Simulation](#part-2-autonomous-navigation-in-simulation)
   - [Part 3: ROS2 Waypoint Navigation Node](#part-3-ros2-waypoint-navigation-node)
-  - [Part 4: Physical TurtleBot3 Mapping](#part-4-physical-turtlebot3-mapping)
+  - [Part 4: Physical TurtleBot 4 Mapping](#part-4-physical-turtlebot-4-mapping)
 - [Assessment](#assessment)
 - [Resources](#resources)
 - [Submission Instructions](#submission-instructions)
@@ -24,15 +24,15 @@
 ## Timeline
 
 - **Assigned:** March 24, 2026
-- **Part 1 checkpoint:** March 27, 2026 (push `writing/part1.md` with screenshots)
-- **Part 2 checkpoint:** April 3, 2026 (push `writing/part2.md` with screenshots)
+- **Part 1 checkpoint:** March 27, 2026 (push `writing/reflection.md` with Part 1 screenshots)
+- **Part 2 checkpoint:** April 3, 2026 (push `writing/reflection.md` with Part 2 screenshots)
 - **Final Submission:** [April 14, 2026 at 4:00 PM](https://calendar.google.com/calendar/render?action=TEMPLATE&text=CS304+P4:+ROS+Simulation+%26+TurtleBots+Due&dates=20260414T160000/20260414T170000&ctz=America/New_York&details=Project+4:+ROS+Simulation+and+TurtleBots)
 
 ---
 
 ## Overview
 
-In this project you will progress from basic SLAM mapping and autonomous navigation in the course Docker simulation environment to writing your own ROS2 node, and finally to building a map with a physical TurtleBot3 robot.
+In this project you will progress from basic SLAM mapping and autonomous navigation in the course Docker simulation environment to writing your own ROS2 node, and to building a map with a physical TurtleBot 4 robot.
 
 The project has four parts that build on each other conceptually:
 
@@ -41,10 +41,10 @@ The project has four parts that build on each other conceptually:
 | **1** | Build a map using SLAM | Docker / Gazebo | Occupancy grids, lidar, Cartographer SLAM |
 | **2** | Navigate autonomously using the map | Docker / Gazebo | Nav2, costmaps, path planning, localization |
 | **3** | Write a ROS2 waypoint navigation node | Docker / Gazebo | Python publishers, Nav2 action client, waypoints |
-| **4** | Map a real environment with a physical TurtleBot3 | Physical robot | Sim-to-real gap, real lidar, hardware constraints |
+| **4** | Map a real environment with a physical TurtleBot 4 | Physical robot | Sim-to-real gap, real lidar, hardware constraints |
 
 **Parts 1–3** use the same Docker simulation environment from Activity 5 — you can start immediately.
-**Part 4** uses physical TurtleBot3 Burger robots (4 robots shared among the class — sign up for time slots on Discord).
+**Part 4** uses physical TurtleBot 4 robots (2 TurtleBot 4 + 2 TurtleBot 4 Lite, shared among the class — sign up for time slots on Discord). **Part 4 does not need to be done last** — you can complete it whenever you have a robot time slot, even before finishing Parts 2 or 3.
 
 ---
 
@@ -58,7 +58,7 @@ By completing this project, you will be able to:
    *Fulfills Course Learning Outcome 3, 4*
 3. **Write a ROS2 Python node** that programmatically sends navigation goals  
    *Fulfills Course Learning Outcome 2, 3*
-4. **Transfer** simulation skills to a physical robot, identifying and addressing sim-to-real differences  
+4. **Transfer** simulation skills to a physical TurtleBot 4, identifying and addressing sim-to-real differences  
    *Fulfills Course Learning Outcome 2, 4*
 5. **Explain** core mapping and navigation concepts: occupancy grids, SLAM, costmaps, localization, and path planning  
    *Fulfills Course Learning Outcome 4*
@@ -70,8 +70,6 @@ By completing this project, you will be able to:
 ## Individual Assignment
 
 This is an **individual project**. All code, documentation, screenshots, and reflections must be your own work. You may discuss concepts with classmates, but all submissions must be independently produced.
-
-For **Part 4** (physical TurtleBot3), you will work with the robot during your scheduled time slot. You may be at the same table as another student using a different robot, but your mapping task, screenshots, and writeup must be your own.
 
 ---
 
@@ -144,7 +142,7 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
    docker cp ros2-turtlebot3:/home/ubuntu/map.yaml maps/sim_map.yaml
    ```
 
-**Deliverable:** Complete `writing/part1.md` with screenshots and answers.
+**Deliverable:** Complete the Part 1 section of `writing/reflection.md` with screenshots and answers.
 
 ---
 
@@ -186,7 +184,7 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
    - Try sending a goal that requires navigating around obstacles
    - Note the path the robot takes and whether it replans if blocked
 
-**Deliverable:** Complete `writing/part2.md` with screenshots and answers.
+**Deliverable:** Complete the Part 2 section of `writing/reflection.md` with screenshots and answers.
 
 ---
 
@@ -340,25 +338,29 @@ Connect via browser at **http://localhost:6080**. Right-click the desktop → **
    docker cp ros2-turtlebot3:/home/ubuntu/ros2_ws/src/waypoint_nav/waypoint_nav/navigate_waypoints.py src/navigate_waypoints.py
    ```
 
-**Deliverable:** Push `src/navigate_waypoints.py` and complete `writing/part3.md`.
+**Deliverable:** Push `src/navigate_waypoints.py` and complete the Part 3 section of `writing/reflection.md`.
 
 ---
 
-### Part 4: Physical TurtleBot3 Mapping
+### Part 4: Physical TurtleBot 4 Mapping
 
-**Goal:** Use a physical TurtleBot3 Burger robot to build a map of a real environment using SLAM, then compare your real-world map to the simulation experience.
+**Goal:** Use a physical TurtleBot 4 robot to build a map of a real environment using SLAM, then compare your real-world map to the simulation experience.
+
+> **Note:** Part 4 does not need to be completed after Parts 1–3. You can do it whenever your time slot is scheduled — even early in the project.
 
 **Concepts:** Physical robots face challenges that don't exist in simulation: sensor noise, wheel slip, uneven surfaces, lighting variations, and limited battery life. This part asks you to experience the **sim-to-real gap** firsthand.
 
 #### Hardware Overview
 
-We have **4 TurtleBot3 Burger** robots available. Each robot includes:
+We have **4 robots** available: **2 TurtleBot 4** and **2 TurtleBot 4 Lite**. Both models use the same iRobot Create 3 base and run the same ROS2 software — the main difference is that the standard TurtleBot 4 includes an OAK-D Pro camera and a display, while the Lite does not. For this project (lidar-based SLAM), both models work identically.
 
+Each robot includes:
+
+- **iRobot Create 3** mobile base (differential drive, bump/cliff sensors, IMU)
 - **Raspberry Pi 4** running ROS2 Jazzy (Ubuntu 24.04)
-- **ROBOTIS OpenCR** motor controller board
-- **LDS-02 (HLS-LFCD3)** 360° lidar sensor
-- **Two Dynamixel XL430** wheel motors
-- **Li-Po battery** (~2 hours runtime)
+- **RPLIDAR A1** 360° 2D lidar sensor
+- **Create 3 lithium-ion battery** (~2.5 hours runtime)
+- **OAK-D Pro stereo camera** (TurtleBot 4 standard only — not used in this project)
 
 #### Scheduling
 
@@ -385,7 +387,7 @@ The instructor will have the TurtleBots pre-configured and connected to a lab Wi
 3. **Launch SLAM** on your laptop:
 
    ```bash
-   ros2 launch turtlebot3_cartographer cartographer.launch.py
+   ros2 launch turtlebot4_navigation slam.launch.py
    ```
 
 4. **Launch teleop** in another terminal on your laptop:
@@ -394,7 +396,7 @@ The instructor will have the TurtleBots pre-configured and connected to a lab Wi
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
 
-   > **Note:** Physical TurtleBot3 Burger uses plain `Twist` messages (not `TwistStamped`), so do **not** add `--ros-args -p stamped:=true` here.
+   > **Note:** The physical TurtleBot 4 uses plain `Twist` messages (not `TwistStamped`), so do **not** add `--ros-args -p stamped:=true` here.
 
 5. **Drive the robot** around the designated area. Tips for physical mapping:
    - Drive **very slowly** — the lidar needs time to scan
@@ -416,7 +418,7 @@ The instructor will have the TurtleBots pre-configured and connected to a lab Wi
    cp ~/real_map.yaml maps/real_map.yaml
    ```
 
-**Deliverable:** Push map files to `maps/` and complete `writing/part4.md`.
+**Deliverable:** Push map files to `maps/` and complete the Part 4 section of `writing/reflection.md`.
 
 ---
 
@@ -427,28 +429,28 @@ The instructor will have the TurtleBots pre-configured and connected to a lab Wi
 ### Part 1: SLAM Mapping in Simulation (2.0 points)
 - [ ] Map saved to `maps/sim_map.pgm` and `maps/sim_map.yaml` (0.5 pts)
 - [ ] Map is reasonably complete (walls, obstacles, corridors visible) (0.5 pts)
-- [ ] `writing/part1.md` completed with screenshots and all questions answered (1.0 pts)
+- [ ] Part 1 section of `writing/reflection.md` completed with screenshots and questions answered (1.0 pts)
 
 ### Part 2: Autonomous Navigation in Simulation (2.5 points)
 - [ ] Evidence of successful navigation to at least three goals (screenshots) (1.0 pts)
-- [ ] `writing/part2.md` completed with costmap observations and questions answered (1.5 pts)
+- [ ] Part 2 section of `writing/reflection.md` completed with costmap observations and questions answered (1.5 pts)
 
 ### Part 3: ROS2 Waypoint Navigation Node (3.0 points)
 - [ ] `src/navigate_waypoints.py` exists and is functional (1.0 pts)
 - [ ] Node includes at least four meaningful waypoints (0.5 pts)
 - [ ] Route navigates around at least one obstacle (0.5 pts)
-- [ ] `writing/part3.md` completed with code explanation, screenshots, and questions answered (1.0 pts)
+- [ ] Part 3 section of `writing/reflection.md` completed with code explanation, screenshots, and questions answered (1.0 pts)
 
-### Part 4: Physical TurtleBot3 Mapping (2.5 points)
+### Part 4: Physical TurtleBot 4 Mapping (2.5 points)
 - [ ] Real map saved to `maps/real_map.pgm` and `maps/real_map.yaml` (0.5 pts)
 - [ ] Map shows recognizable features of the mapped area (0.5 pts)
-- [ ] `writing/part4.md` completed with comparison, observations, and all questions answered (1.5 pts)
+- [ ] Part 4 section of `writing/reflection.md` completed with comparison, observations, and questions answered (1.5 pts)
 
 ### Checkpoint Deductions
 
 Each checkpoint not met by its deadline may result in a 0.5 point deduction:
-- **Part 1 checkpoint (March 27):** `writing/part1.md` pushed with at least one screenshot
-- **Part 2 checkpoint (April 3):** `writing/part2.md` pushed with at least one screenshot
+- **Part 1 checkpoint (March 27):** Part 1 section of `writing/reflection.md` pushed with at least one screenshot
+- **Part 2 checkpoint (April 3):** Part 2 section of `writing/reflection.md` pushed with at least one screenshot
 
 ---
 
@@ -460,13 +462,14 @@ Each checkpoint not met by its deadline may result in a 0.5 point deduction:
 ### ROS2 and Nav2
 - [Nav2 Documentation](https://docs.nav2.org/)
 - [Nav2 Getting Started](https://docs.nav2.org/getting_started/index.html)
-- [TurtleBot3 SLAM Guide (ROS2 Jazzy)](https://emanual.robotis.com/docs/en/platform/turtlebot3/slam/)
-- [TurtleBot3 Navigation Guide (ROS2 Jazzy)](https://emanual.robotis.com/docs/en/platform/turtlebot3/navigation/)
+- [TurtleBot3 SLAM Guide (ROS2 Jazzy)](https://emanual.robotis.com/docs/en/platform/turtlebot3/slam/) — simulation reference
+- [TurtleBot3 Navigation Guide (ROS2 Jazzy)](https://emanual.robotis.com/docs/en/platform/turtlebot3/navigation/) — simulation reference
 - [ROS2 Jazzy Tutorials](https://docs.ros.org/en/jazzy/Tutorials.html)
 
-### Physical TurtleBot3
-- [TurtleBot3 e-Manual](https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)
-- [TurtleBot3 Quick Start (Jazzy)](https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/)
+### Physical TurtleBot 4
+- [TurtleBot 4 User Manual](https://turtlebot.github.io/turtlebot4-user-manual/)
+- [TurtleBot 4 Setup](https://turtlebot.github.io/turtlebot4-user-manual/setup/)
+- [TurtleBot 4 Navigation](https://turtlebot.github.io/turtlebot4-user-manual/tutorials/navigation.html)
 
 ### Course Materials
 - [Activity 5: ROS2 Setup & First Simulation](../activity05/README.md) — Docker environment setup
@@ -481,9 +484,9 @@ Submit via your GitHub repository:
 
 | Deadline | What to push |
 |----------|-------------|
-| **March 27 (checkpoint)** | `writing/part1.md` with screenshots |
-| **April 3 (checkpoint)** | `writing/part2.md` with screenshots |
-| **April 14 at 4:00 PM** | Everything: all `writing/` files, `src/navigate_waypoints.py`, all `maps/` files |
+| **March 27 (checkpoint)** | `writing/reflection.md` with Part 1 screenshots |
+| **April 3 (checkpoint)** | `writing/reflection.md` with Part 2 screenshots |
+| **April 14 at 4:00 PM** | Everything: `writing/reflection.md`, `src/navigate_waypoints.py`, all `maps/` files |
 
 ### Repository Checklist
 
@@ -492,8 +495,7 @@ Before submitting, verify:
 - [ ] `maps/sim_map.pgm` and `maps/sim_map.yaml` exist
 - [ ] `maps/real_map.pgm` and `maps/real_map.yaml` exist
 - [ ] `src/navigate_waypoints.py` exists and runs
-- [ ] All four `writing/part*.md` files are complete
-- [ ] `writing/reflection.md` is complete
+- [ ] `writing/reflection.md` is complete (all four parts + overall reflection)
 - [ ] Regular Git commits with clear messages throughout the project
 
 ---

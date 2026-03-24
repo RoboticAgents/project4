@@ -1,63 +1,44 @@
-# Part 1: SLAM Mapping in Simulation
-- writing/part1.md:
-    - description: Ensure Part 1 writeup exists
+# Reflection (combined writeup for all parts)
+- writing/reflection.md:
+    - description: Ensure reflection exists
       check: ConfirmFileExists
-    - description: Part 1 has at least 300 words
+    - description: Reflection has at least 800 words
       check: CountFileWords
       options:
-        count: 300
+        count: 800
         exact: false
-    - description: Part 1 includes Student Name
+    - description: Reflection includes student name
       check: MatchFileFragment
       options:
         fragment: "Name:"
         count: 1
         exact: false
-    - description: Part 1 includes answer to Q1
+    - description: Reflection includes all 11 question answers
       check: MatchFileFragment
       options:
         fragment: "**Answer:**"
-        count: 5
+        count: 11
         exact: false
-
-# Part 2: Autonomous Navigation in Simulation
-- writing/part2.md:
-    - description: Ensure Part 2 writeup exists
-      check: ConfirmFileExists
-    - description: Part 2 has at least 400 words
-      check: CountFileWords
-      options:
-        count: 400
-        exact: false
-    - description: Part 2 includes answers to all questions
-      check: MatchFileFragment
-      options:
-        fragment: "**Answer:**"
-        count: 6
-        exact: false
-
-# Part 3: ROS2 Waypoint Navigation Node
-- writing/part3.md:
-    - description: Ensure Part 3 writeup exists
-      check: ConfirmFileExists
-    - description: Part 3 has at least 300 words
-      check: CountFileWords
-      options:
-        count: 300
-        exact: false
-    - description: Part 3 includes waypoint table
+    - description: Reflection includes waypoint table
       check: MatchFileFragment
       options:
         fragment: "| Waypoint |"
         count: 1
         exact: false
-    - description: Part 3 includes answers to all questions
+    - description: Reflection includes TurtleBot ID
       check: MatchFileFragment
       options:
-        fragment: "**Answer:**"
-        count: 5
+        fragment: "TurtleBot ID used:"
+        count: 1
+        exact: false
+    - description: Reflection includes time log
+      check: MatchFileFragment
+      options:
+        fragment: "**Total**"
+        count: 1
         exact: false
 
+# Navigation node
 - src/navigate_waypoints.py:
     - description: Ensure waypoint navigation node exists
       check: ConfirmFileExists
@@ -85,28 +66,6 @@
         count: 1
         exact: false
 
-# Part 4: Physical TurtleBot3 Mapping
-- writing/part4.md:
-    - description: Ensure Part 4 writeup exists
-      check: ConfirmFileExists
-    - description: Part 4 has at least 400 words
-      check: CountFileWords
-      options:
-        count: 400
-        exact: false
-    - description: Part 4 includes TurtleBot ID
-      check: MatchFileFragment
-      options:
-        fragment: "TurtleBot ID used:"
-        count: 1
-        exact: false
-    - description: Part 4 includes answers to all questions
-      check: MatchFileFragment
-      options:
-        fragment: "**Answer:**"
-        count: 6
-        exact: false
-
 # Map files
 - maps/sim_map.yaml:
     - description: Ensure simulation map metadata exists
@@ -115,25 +74,3 @@
 - maps/real_map.yaml:
     - description: Ensure physical map metadata exists
       check: ConfirmFileExists
-
-# Reflection
-- writing/reflection.md:
-    - description: Ensure reflection exists
-      check: ConfirmFileExists
-    - description: Reflection has at least 500 words
-      check: CountFileWords
-      options:
-        count: 500
-        exact: false
-    - description: Reflection includes project summary
-      check: MatchFileFragment
-      options:
-        fragment: "**Summary:**"
-        count: 1
-        exact: false
-    - description: Reflection includes time log
-      check: MatchFileFragment
-      options:
-        fragment: "**Total**"
-        count: 1
-        exact: false
