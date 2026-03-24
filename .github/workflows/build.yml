@@ -1,0 +1,30 @@
+name: Project Documentation Checks
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  gatorgrade:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install GatorGrade
+      run: |
+        pip install gatorgrade
+        
+    - name: Run GatorGrade checks
+      run: |
+        gatorgrade --config config/gatorgrade.yml --report env md json
