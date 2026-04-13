@@ -146,13 +146,6 @@
 
 ![Completed Map](screenshots/part4_complete_map.png)
 
-#### Side-by-Side Comparison
-
-> Insert images comparing your simulation map (Part 1) and your physical map (Part 4).
-
-![Simulation Map](screenshots/part4_sim_comparison.png)
-![Physical Map](screenshots/part4_real_comparison.png)
-
 ### Questions
 
 **Q8:** How did driving and mapping with the physical robot differ from simulation? Compare map quality, sensor noise, and any setup challenges you faced.

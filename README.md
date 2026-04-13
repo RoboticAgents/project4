@@ -70,6 +70,8 @@ By completing this project, you will be able to:
 
 This is an **individual project**. All code, documentation, screenshots, and reflections must be your own work. You may discuss concepts with classmates, but all submissions must be independently produced.
 
+> **Exception — Part 4:** Part 4 (Physical TurtleBot 4 Mapping) may be completed in a group. Group members may submit the same map files. Each student must still complete the Part 4 section of their own `writing/reflection.md` individually and must list the names of everyone they worked with.
+
 ---
 
 ## Prerequisites
@@ -457,7 +459,7 @@ If you prefer to run ROS2 natively on Ubuntu 24.04 instead of using Docker, inst
 
 **Goal:** Use a physical TurtleBot 4 robot to build a map of a real environment using SLAM, then compare your real-world map to the simulation experience.
 
-> **Note:** Part 4 does not need to be completed after Parts 1–3. You can do it whenever your time slot is scheduled — even early in the project.
+> **Note:** Part 4 can be completed on April 13 or April 14 in ALIC.
 
 **Concepts:** Physical robots face challenges that don't exist in simulation: sensor noise, wheel slip, uneven surfaces, lighting variations, and limited battery life. This part asks you to experience the **sim-to-real gap** firsthand.
 
@@ -473,22 +475,15 @@ Each robot includes:
 - **Create 3 lithium-ion battery** (~2.5 hours runtime)
 - **OAK-D Pro stereo camera** (TurtleBot 4 standard only — not used in this project)
 
-#### Scheduling
-
-Since we have 4 robots for the class, you will **sign up for a time slot** on Discord. Each slot is approximately 1 hour. Plan to complete your mapping in one session.
-
-Available times will be posted on Discord. First-come, first-served — sign up early.
-
 #### Setup
 
 Each TurtleBot 4 has a dedicated laptop with ROS2 Jazzy pre-installed. You will use this laptop (not your personal machine) to run SLAM and teleop.
 
-1. **Log in** to the robot's laptop. The instructor will provide credentials.
+1. **Log in** to the robot's laptop. The password is `alleghenycollege`.
 
 2. **Verify connectivity** — open a terminal and check that you can see the robot's topics:
 
    ```bash
-   export ROS_DOMAIN_ID=<your_robot_id>
    ros2 topic list
    ```
 
@@ -499,29 +494,44 @@ Each TurtleBot 4 has a dedicated laptop with ROS2 Jazzy pre-installed. You will 
    ```bash
    ros2 launch turtlebot4_navigation slam.launch.py
    ```
+4. **Launch rviz** in another terminal:
 
-4. **Launch teleop** in another terminal:
+   ```bash
+   ros2 launch turtlebot4_viz view_navigation.launch.py
+   ```
+
+5. **Launch teleop** in another terminal:
 
    ```bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
 
-   > **Note:** The physical TurtleBot 4 uses plain `Twist` messages (not `TwistStamped`), so do **not** add `--ros-args -p stamped:=true` here.
+   or
 
-5. **Drive the robot** around the designated area. Tips for physical mapping:
+   ```bash
+   ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true
+   ```
+
+6. **Drive the robot** around the designated area. Tips for physical mapping:
    - Drive **very slowly** — the lidar needs time to scan
    - Avoid sudden turns
    - Map a defined area (e.g., a hallway, a section of a room)
    - Revisit your starting point to allow loop closure
    - Watch the map in RViz as you go
 
-6. **Save the map:**
+7. **Save the map:**
 
    ```bash
    ros2 run nav2_map_server map_saver_cli -f ~/real_map
    ```
 
-7. **Copy the map files** to your project repository. Clone your repo on the robot's laptop (or use a USB drive), then:
+   or
+
+   ```bash
+   ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap "name:data: 'map_name'"
+  ```
+
+8. **Copy the map files** to your project repository. Clone your repo on the robot's laptop (or use a USB drive), then:
 
    ```bash
    cp ~/real_map.pgm <your-repo>/maps/real_map.pgm
@@ -530,7 +540,9 @@ Each TurtleBot 4 has a dedicated laptop with ROS2 Jazzy pre-installed. You will 
 
    Commit and push from the robot's laptop, or transfer the files to your own machine.
 
-**Deliverable:** Push map files to `maps/` and complete the Part 4 section of `writing/reflection.md`.
+**Group work:** Part 4 may be completed in a group. Group members may submit the same map files (`maps/real_map.pgm` and `maps/real_map.yaml`). Each student must complete the Part 4 section of their own `writing/reflection.md` individually.
+
+**Deliverable:** Push map files to `maps/` and complete the Part 4 section of `writing/reflection.md`. **If you worked with others, list their names at the top of the Part 4 section of your reflection.**
 
 ---
 
@@ -557,6 +569,7 @@ Each TurtleBot 4 has a dedicated laptop with ROS2 Jazzy pre-installed. You will 
 - [ ] Real map saved to `maps/real_map.pgm` and `maps/real_map.yaml` (0.5 pts)
 - [ ] Map shows recognizable features of the mapped area (0.5 pts)
 - [ ] Part 4 section of `writing/reflection.md` completed with comparison, observations, and questions answered (1.5 pts)
+- [ ] If completed in a group, names of group members listed in the Part 4 section of `writing/reflection.md`
 
 ### Checkpoint Deductions
 
@@ -623,3 +636,5 @@ You may NOT:
 - Copy another student's code, maps, screenshots, or written responses
 - Use AI tools to generate your written reflections (your reflections should describe YOUR experience)
 - Submit maps or screenshots that are not from your own work
+
+> **Part 4 exception:** Group members may share the same map files for Part 4. Written reflections must still be your own. You must identify your group members in your reflection.
